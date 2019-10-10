@@ -10,39 +10,39 @@ Vagrant.configure("2") do |config|
   # For a complete reference, please see the online documentation at
   # https://docs.vagrantup.com.
 
-  # # Config for Relational DB Servers (3)
-  # (1..3).each do |i|
-  #   config.vm.define "rdbs#{i}" do |node|
-  #     node.vm.hostname = "rdbs#{i}"
-  #     node.vm.box = "ubuntu/bionic64"
-  #     node.vm.network "private_network", ip: "192.168.16.6#{i+3}"
-
-  #     node.vm.provider "virtualbox" do |vb|
-  #       vb.name = "rdbs#{i}"
-  #       vb.gui = false
-  #       vb.memory = "512"
-  #       vb.cpus = "1"
-  #     end
+  # Config for Relational DB Servers (3)
+  (1..3).each do |i|
+    config.vm.define "rdbs#{i}" do |node|
+      node.vm.hostname = "rdbs#{i}"
+      node.vm.box = "ubuntu/bionic64"
+      node.vm.network "private_network", ip: "192.168.16.6#{i+3}"
       
-  #     node.vm.provision "shell", path: "bootstrapRDBS#{i}.sh", privileged: false
-  #   end
-  # end
+      node.vm.provider "virtualbox" do |vb|
+        vb.name = "rdbs#{i}"
+        vb.gui = false
+        vb.memory = "512"
+        vb.cpus = "1"
+      end
+      
+      node.vm.provision "shell", path: "bootstrapRDBS#{i}.sh"
+    end
+  end
 
-  # # Config for Load balancer
-  # config.vm.define "lb1" do |node|
-  #   node.vm.hostname = "lb1"
-  #   node.vm.box = "ubuntu/bionic64"
-  #   node.vm.network "private_network", ip: "192.168.16.67"
+  # Config for Load balancer
+  config.vm.define "lb1" do |node|
+    node.vm.hostname = "lb1"
+    node.vm.box = "ubuntu/bionic64"
+    node.vm.network "private_network", ip: "192.168.16.67"
     
-  #   node.vm.provider "virtualbox" do |vb|
-  #     vb.name = "lb1"
-  #     vb.gui = false
-  #     vb.memory = "512"
-  #     vb.cpus = "1"
-  #   end
+    node.vm.provider "virtualbox" do |vb|
+      vb.name = "lb1"
+      vb.gui = false
+      vb.memory = "512"
+      vb.cpus = "1"
+    end
 
-  #   node.vm.provision "shell", path: "bootstrapLoadBalancer.sh", privileged: false
-  # end
+    node.vm.provision "shell", path: "bootstrapLoadBalancer.sh", privileged: false
+  end
 
   # Config for web server
   config.vm.define "web1" do |node|

@@ -1,0 +1,3 @@
+CREATE USER 'sstuser'@'localhost' IDENTIFIED BY 'passw0rd';
+GRANT RELOAD, LOCK TABLES, PROCESS, REPLICATION CLIENT ON *.* TO 'sstuser'@'localhost';
+FLUSH PRIVILEGES;
