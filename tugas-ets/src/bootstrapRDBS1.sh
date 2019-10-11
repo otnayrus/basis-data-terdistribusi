@@ -11,11 +11,11 @@ apt-get remove -y apparmor
 wget https://repo.percona.com/apt/percona-release_latest.generic_all.deb
 dpkg -i percona-release_latest.generic_all.deb
 percona-release setup pxc57
-
-# Install PXC
 apt-get update
 
+
 # # === Manual Process till end===
+# Install PXC
 # apt-get install -y percona-xtradb-cluster-57
 
 # # Stop mysql
