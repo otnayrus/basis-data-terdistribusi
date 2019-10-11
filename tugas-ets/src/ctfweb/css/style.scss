@@ -1,0 +1,29 @@
+@import "base";
+
+.problemlist, .answered {
+    margin-top: 5px;
+}
+
+.r-pointer {
+    cursor: pointer;
+}
+
+.r-sideproblem{
+    float: right;
+}
+
+.problem_sort{
+    width: 100%;
+    text-align: center;
+    display: inline-block;
+    .sort-ASC{
+        
+        display: inline-block;
+        transform: rotateZ(180deg) !important;
+    }
+    img{
+        position: relative;
+        top: 10px;
+        height: 35px;
+    }
+}

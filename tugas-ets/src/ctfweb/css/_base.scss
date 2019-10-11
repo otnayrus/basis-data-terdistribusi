@@ -1,0 +1,344 @@
+body {
+    font-family:Arial, Sans-Serif;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+}
+@import url(https://fonts.googleapis.com/css?family=Lato);
+
+*, *:before, *:after{
+ -webkit-box-sizing: border-box;
+ -moz-box-sizing: border-box;
+ box-sizing: border-box;
+ padding: 0;
+ margin: 0;
+ font-family: 'Lato', sans-serif;
+}
+
+@import url(https://fonts.googleapis.com/css?family=Dosis:300|Lato:300,400,600,700|Roboto+Condensed:300,700|Open+Sans+Condensed:300,600|Open+Sans:400,300,600,700|Maven+Pro:400,700);
+* {
+ -moz-box-sizing: border-box;
+ -webkit-box-sizing: border-box;
+ box-sizing: border-box;
+}
+
+.content:before {
+ content: "";
+ position: fixed;
+ left: 0;
+ right: 0;
+ top: 0;
+ bottom: 0;
+ z-index: -1;
+ display: block;
+ background-color: black;
+ background-image: url("https://c.wallhere.com/photos/fc/9e/Mostar_Bosnia_and_Herzegovina_old_bridge_bridge_old_night_Never_Forget_Stari_Most-84701.jpg!d");
+ width: 100%;
+ height: 100%;
+ background-size: cover;
+ -webkit-filter: blur(2px);
+ -moz-filter: blur(2px);
+ -o-filter: blur(2px);
+ -ms-filter: blur(2px);
+ filter: blur(2px);
+}
+
+.content {
+ position: absolute;
+ top: 0;
+ bottom: 0;
+ left: 0;
+ right: 0;
+ width: 540px;
+ height: 540px;
+ background-color: rgba(10, 10, 10, 0.5);
+ margin: auto auto;
+ padding: 40px;
+ -moz-border-radius: 4px;
+ -webkit-border-radius: 4px;
+ border-radius: 4px;
+ -moz-box-shadow: 0 0 10px black;
+ -webkit-box-shadow: 0 0 10px black;
+ box-shadow: 0 0 10px black;
+}
+.content .title {
+ text-align: center;
+ font-size: 2.0rem;
+ font-weight: 600;
+ padding-bottom: 30px;
+}
+.content input {
+ width: 100%;
+ font-size: 1.2rem;
+ font-family: "Open Sans";
+ margin: 10px 0px;
+ border: none;
+ padding: 10px;
+ -moz-border-radius: 4px;
+ -webkit-border-radius: 4px;
+ border-radius: 4px;
+}
+.content input[type=checkbox] {
+ display: none;
+}
+.content label {
+ display: inline-block;
+ width: 20px;
+ height: 20px;
+ cursor: pointer;
+ position: relative;
+ margin-left: 5px;
+ margin-right: 10px;
+ top: 5px;
+}
+.content label:before {
+ content: "";
+ display: inline-block;
+ width: 20px;
+ height: 20px;
+ -moz-border-radius: 3px;
+ -webkit-border-radius: 3px;
+ border-radius: 3px;
+ position: absolute;
+ left: 0;
+ bottom: 1px;
+ background-color: #aaa;
+ -moz-box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, 0.3), 0px 1px 0px 0px rgba(255, 255, 255, 0.8);
+ -webkit-box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, 0.3), 0px 1px 0px 0px rgba(255, 255, 255, 0.8);
+ box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, 0.3), 0px 1px 0px 0px rgba(255, 255, 255, 0.8);
+}
+.content span {
+ font-size: 0.9rem;
+}
+.content .already {
+ text-align: center;
+ font-size: 0.9rem;
+}
+
+
+/*| Navigation |*/
+
+nav{
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 100%;
+ background: #fff;
+ box-shadow: 0 3px 10px -2px rgba(0,0,0,.1);
+ border: 1px solid rgba(0,0,0,.1);
+}
+ nav ul{
+   list-style: none;
+   position: relative;
+   float: right;
+   margin-right: 100px;
+   display: inline-table;
+ }
+   nav ul li{
+     float: left;
+     -webkit-transition: all .2s ease-in-out;
+     -moz-transition: all .2s ease-in-out;
+     transition: all .2s ease-in-out;
+   }
+
+   nav ul li:hover{background: rgba(0,0,0,.15);}
+   nav ul li:hover > ul{display: block;}
+   nav ul li{
+     float: left;
+     -webkit-transition: all .2s ease-in-out;
+     -moz-transition: all .2s ease-in-out;
+     transition: all .2s ease-in-out;
+   }
+     nav ul li a{
+       display: block; 
+       padding: 30px 20px;
+       color: #222; 
+       font-size: .9em;
+       letter-spacing: 1px;
+       text-decoration: none;
+       text-transform: uppercase;
+     }
+     nav ul ul{
+       display: none;
+       background: #fff;
+       position: absolute; 
+       top: 100%;
+       box-shadow: -3px 3px 10px -2px rgba(0,0,0,.1);
+       border: 1px solid rgba(0,0,0,.1);
+     }
+       nav ul ul li{float: none; position: relative;}
+         nav ul ul li a {
+           padding: 15px 30px; 
+           border-bottom: 1px solid rgba(0,0,0,.05);
+         }
+         nav ul ul ul {
+           position: absolute; 
+           left: 100%; 
+           top:0;
+         }    
+
+.clearfix:before, .clearfix:after{
+    content: "";
+    display: table;
+}
+.clearfix:after{
+    clear: both;
+}
+a{
+    color:#0067ab;
+    text-decoration:none;
+}
+a:hover{
+    text-decoration:underline;
+}
+.forme{
+    width: 300px;
+    margin: 0 auto;
+}
+input[type='text'], input[type='email'], input[type='password'] {
+    width: 200px;
+    border-radius: 2px;
+    border: 1px solid #CCC;
+    padding: 10px;
+    color: #333;
+    font-size: 14px;
+    margin-top: 10px;
+}
+input[type='submit']{
+    padding: 10px 25px 8px;
+    color: #fff;
+    background-color: #0067ab;
+    text-shadow: rgba(0,0,0,0.24) 0 1px 0;
+    font-size: 16px;
+    box-shadow: rgba(255,255,255,0.24) 0 2px 0 0 inset,#fff 0 1px 0 0;
+    border: 1px solid #0164a5;
+    border-radius: 2px;
+    margin-top: 10px;
+    cursor:pointer;
+}
+input[type='submit']:hover {
+    background-color: #024978;
+}
+
+.form_error span {
+ width: 80%;
+ height: 35px;
+ margin: 3px 10%;
+ font-size: 0.7em;
+ color: #D83D5A;
+}
+.form_error input {
+ border: 1px solid #D83D5A;
+}
+#reg_btn {
+ height: 35px;
+ width: 80%;
+ margin: 5px 10%;
+ color: white;
+ background: #3B5998;
+ border: none;
+ border-radius: 5px;
+}
+
+textarea{
+    resize: none;
+    height: 200px;
+    width: 600px;
+    overflow-y: scroll;
+}
+
+#pmaker {
+    width : 600px;
+    margin: 0 auto;
+}
+#pmaker p {
+    display: inline;
+}
+
+#hiddenmaker{
+    display: none;
+    background-color: #f0f0f0;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+#editmaker{
+    background-color: #f0f0f0;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.button {
+   background-color: #008CBA; 
+   border: none;
+   color: white;
+   padding: 15px 32px;
+   text-align: center;
+   text-decoration: none;
+   display: inline-block;
+   font-size: 16px;
+   margin: 0 auto;
+   cursor: pointer;
+}
+
+.problemlist{
+
+ box-shadow: 0 3px 10px -2px rgba(0,0,0,.1);
+ border: 1px solid rgba(0,0,0,.1);
+    width: 50%;
+    margin: 0 auto; 
+    padding: 10px 10px 10px 10px;
+}
+
+.phidden{
+    display: none;
+}
+
+.footer {
+ text-align: center;
+ padding: 10px 20px 10px 20px;
+ box-shadow: 0 -4px 0 0 rgba(0,0,0,.1);
+ border: 2px solid rgba(0,0,0,.1);
+   left: 0;
+   bottom: 0;
+   height: 100px;
+   width: 100%;
+   overflow: hidden;
+}
+
+.panel {
+   display: none;
+}
+
+.answered{
+ box-shadow: 0 3px 10px -2px rgba(0,0,0,.1);
+ border: 1px solid rgba(0,0,0,.1);
+    width: 50%;
+    margin: 0 auto; 
+    padding: 10px 10px 10px 10px;
+    background-color: #f0f0f0;
+}
+
+h1 , h2{
+    font-family: 'Inconsolata', monospace;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+table { 
+  width: 100%; 
+  border-collapse: collapse; 
+}
+/* Zebra striping */
+tr:nth-of-type(odd) { 
+  background: #eee; 
+}
+th { 
+  background: #333; 
+  color: white; 
+  font-weight: bold; 
+}
+td, th { 
+  padding: 6px; 
+  border: 1px solid #ccc; 
+  text-align: left; 
+}

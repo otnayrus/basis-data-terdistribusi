@@ -1,0 +1,19 @@
+.problemlist{
+    line-height:35px;
+    margin-bottom:10px;
+}
+
+.problemlist:hover{
+    transition: transform .2s;
+    transform: scale(1.05);
+}
+
+.answered{
+    line-height:35px;
+    margin-bottom:10px;
+}
+
+.answered:hover{
+    transition: transform .2s;
+    transform: scale(1.05);
+}
