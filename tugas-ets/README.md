@@ -135,7 +135,7 @@ $ /etc/init.d/mysql bootstrap-pxc
 ```
 Jika berhasil, maka akan muncul line bootstrap pxc.
 
-<img src="assets/pxc-bootstrap.png" alt="Bootstrap PXC" width="750"/>
+<img src="assets/pxc-bootstrap.PNG" alt="Bootstrap PXC" width="750"/>
 
 #### Tambahkan user SST dan hak aksesnya pada Node 1
 User SST dibuat untuk melakukan state transfer
@@ -286,7 +286,7 @@ if ($con->connect_error) {
 Aplikasi menggunakan host dengan alamat Load balancer ProxySQL, sebagai pintu untuk melakukan akses DB.
 
 #### Screenshoot Aplikasi
-<img src="assets/app-1-login.png" alt="Login Page App" width="550"/>
+<img src="assets/app-1-login.PNG" alt="Login Page App" width="550"/>
 
 Login page dari <strong>ctfweb</strong> berhasil diakses di browser host.
 
@@ -296,17 +296,17 @@ Langkah pertama untuk melakukan uji coba, yaitu dengan memastikan semua node tel
 ```
 $ vagrant status
 ```
-<img src="assets/vagrant-status-ok.png" alt="Vagrant Status OK" width="400"/>
+<img src="assets/vagrant-status-ok.PNG" alt="Vagrant Status OK" width="400"/>
 
 #### Uji coba dengan kasus penggunaan menambahkan problem ke dalam problem set
 
 Halaman awal problem set, terisi dengan 2 problem.
 
-<img src="assets/app-initial.png" alt="Initial problem set" width="550"/>
+<img src="assets/app-initial.PNG" alt="Initial problem set" width="550"/>
 
 Data pada RDBS1:
 
-<img src="assets/app-db1-awal.png" alt="Initial DB 1" width="700"/>
+<img src="assets/app-db1-awal.PNG" alt="Initial DB 1" width="700"/>
 
 Kemudian melakukan failover pada server DB 1 dan 2
 ```
@@ -316,17 +316,17 @@ root@rdbs1:~# service mysql bootstrap-stop
 ```
 Pengecekan failover di node ProxySQL:
 
-<img src="assets/lb1-monitor.png" alt="ProxySQL Monitor Failover" width="700"/>
+<img src="assets/lb1-monitor.PNG" alt="ProxySQL Monitor Failover" width="700"/>
 
 Pada gambar diatas, Node DB 1 (192.168.16.64) dan 2 (192.168.16.65) tidak bisa di-ping oleh ProxySQL, hanya node 3 (192.168.16.66) yang statusnya masih aktif.
 
 Mencoba menambahkan data pada web saat failover:
 
-<img src="assets/app-final-state.png" alt="App Final State" width="600"/>
+<img src="assets/app-final-state.PNG" alt="App Final State" width="600"/>
 
 Mengecek DB Node 3:
 
-<img src="assets/db3-sync.png" alt="DB 3 Sync" width="700"/>
+<img src="assets/db3-sync.PNG" alt="DB 3 Sync" width="700"/>
 
 Mengaktifkan kembali Server DB node 1 dan 2:
 ```
@@ -337,8 +337,8 @@ root@rdbs1:~# service mysql bootstrap-pxc
 ```
 Mengecek DB Node 1 dan 2:
 
-<img src="assets/db1-sync.png" alt="DB 1 Sync" width="700"/>
+<img src="assets/db1-sync.PNG" alt="DB 1 Sync" width="700"/>
 
-<img src="assets/db2-sync.png" alt="DB 1 Sync" width="700"/>
+<img src="assets/db2-sync.PNG" alt="DB 1 Sync" width="700"/>
 
 Pada gambar, terbukti cluster dapat melakukan sync data kembali setelah terjadi failover pada node lain.
