@@ -92,13 +92,13 @@ apt-get update
 
 <strong>NOTE: Pastikan akses terhadap Node adalah `root`.</strong>
 ```
-apt-get install -y percona-xtradb-cluster-57
+$ apt-get install -y percona-xtradb-cluster-57
 ```
 Akan muncul perintah untuk memasukkan password root, kosongkan, dan pilih OK.
 
 #### Stop MySQL service
 ```
-service mysql stop
+$ service mysql stop
 ```
 #### Menambahkan variabel konfigurasi pada file `/etc/mysql/my.cnf`
 ```
@@ -131,16 +131,20 @@ wsrep_node_address=192.168.16.66
 ```
 #### Melakukan Bootstrap Percona XtraDB Cluster pada Node 1
 ```
-/etc/init.d/mysql bootstrap-pxc
+$ /etc/init.d/mysql bootstrap-pxc
 ```
+Jika berhasil, maka akan muncul line bootstrap pxc.
+
+<img src="assets/pxc-bootstrap.png" alt="Bootstrap PXC" width="750"/>
+
 #### Tambahkan user SST dan hak aksesnya pada Node 1
 User SST dibuat untuk melakukan state transfer
 ```
-mysql -u root -padmin < /vagrant/sstuser.sql
+$ mysql -u root -padmin < /vagrant/sstuser.sql
 ```
 #### Jalankan Service MySQL pada Node 2 & 3 untuk join cluster
 ```
-/etc/init.d/mysql start
+$ /etc/init.d/mysql start
 ```
 Akhir dari setup Percona XtraDB Cluster pada rdbs1, rdbs2, rdbs3
 
@@ -166,23 +170,23 @@ apt-get update
 
 <strong>NOTE: Pastikan akses terhadap Node adalah `root`.</strong>
 ```
-apt-get install -y percona-xtradb-cluster-57
+$ apt-get install -y percona-xtradb-cluster-57
 ```
 Akan muncul perintah untuk memasukkan password root, kosongkan, dan pilih OK.
 
 #### Stop MySQL service
 ```
-service mysql stop
+$ service mysql stop
 ```
 
 #### Install ProxySQL
 ```
-apt-get install proxysql2
+$ apt-get install proxysql2
 ```
 
 #### Tambahkan konfigurasi ProxySQL
 ```
-mysql -u admin -padmin -h 127.0.0.1 -P 6032 < /vagrant/proxysqlquery.sql
+$ mysql -u admin -padmin -h 127.0.0.1 -P 6032 < /vagrant/proxysqlquery.sql
 ```
 Akhir dari setup ProxySQL
 
@@ -250,13 +254,13 @@ Aplikasi yang digunakan adalah aplikasi platform Capture the Flag (CTF) berbasis
 #### Memasukkan Aplikasi ke Web Server
 Aplikasi disematkan ke dalam web server dengan melakukan copy terhadap kode sumber aplikasi dari `/vagrant` ke `/var/www/html/`
 ```
-cp /vagrant/ctfweb /var/www/html/
+$ cp /vagrant/ctfweb /var/www/html/
 ```
 
 #### Membuat database untuk Aplikasi
 Dilakukan dengan menjalankan kueri pada salah satu node DB yang tergabung dalam cluster. Pada kasus ini, kueri disimpan di sql dump pada file `database.php`
 ```
-mysql < /vagrant/ctfweb/database.php
+$ mysql < /vagrant/ctfweb/database.php
 ```
 
 #### Konfigurasi Koneksi Aplikasi ke DB
@@ -281,6 +285,60 @@ if ($con->connect_error) {
 ```
 Aplikasi menggunakan host dengan alamat Load balancer ProxySQL, sebagai pintu untuk melakukan akses DB.
 
+#### Screenshoot Aplikasi
+<img src="assets/app-1-login.png" alt="Login Page App" width="550"/>
+
+Login page dari <strong>ctfweb</strong> berhasil diakses di browser host.
+
 ## Simulasi fail-over
 
-WIP
+Langkah pertama untuk melakukan uji coba, yaitu dengan memastikan semua node telah hidup / online.
+```
+$ vagrant status
+```
+<img src="assets/vagrant-status-ok.png" alt="Vagrant Status OK" width="400"/>
+
+#### Uji coba dengan kasus penggunaan menambahkan problem ke dalam problem set
+
+Halaman awal problem set, terisi dengan 2 problem.
+
+<img src="assets/app-initial.png" alt="Initial problem set" width="550"/>
+
+Data pada RDBS1:
+
+<img src="assets/app-db1-awal.png" alt="Initial DB 1" width="700"/>
+
+Kemudian melakukan failover pada server DB 1 dan 2
+```
+root@rdbs2:~# service mysql stop
+
+root@rdbs1:~# service mysql bootstrap-stop
+```
+Pengecekan failover di node ProxySQL:
+
+<img src="assets/lb1-monitor.png" alt="ProxySQL Monitor Failover" width="700"/>
+
+Pada gambar diatas, Node DB 1 (192.168.16.64) dan 2 (192.168.16.65) tidak bisa di-ping oleh ProxySQL, hanya node 3 (192.168.16.66) yang statusnya masih aktif.
+
+Mencoba menambahkan data pada web saat failover:
+
+<img src="assets/app-final-state.png" alt="App Final State" width="600"/>
+
+Mengecek DB Node 3:
+
+<img src="assets/db3-sync.png" alt="DB 3 Sync" width="700"/>
+
+Mengaktifkan kembali Server DB node 1 dan 2:
+```
+root@rdbs2:~# service mysql start
+
+root@rdbs1:~# service mysql start
+root@rdbs1:~# service mysql bootstrap-pxc
+```
+Mengecek DB Node 1 dan 2:
+
+<img src="assets/db1-sync.png" alt="DB 1 Sync" width="700"/>
+
+<img src="assets/db2-sync.png" alt="DB 1 Sync" width="700"/>
+
+Pada gambar, terbukti cluster dapat melakukan sync data kembali setelah terjadi failover pada node lain.
