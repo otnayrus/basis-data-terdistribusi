@@ -182,7 +182,7 @@ apt-get install proxysql2
 
 #### Tambahkan konfigurasi ProxySQL
 ```
-mysql -u admin -padmin -h 127.0.0.1 -P 6032 < proxysqlquery.sql
+mysql -u admin -padmin -h 127.0.0.1 -P 6032 < /vagrant/proxysqlquery.sql
 ```
 Akhir dari setup ProxySQL
 
@@ -250,7 +250,13 @@ Aplikasi yang digunakan adalah aplikasi platform Capture the Flag (CTF) berbasis
 #### Memasukkan Aplikasi ke Web Server
 Aplikasi disematkan ke dalam web server dengan melakukan copy terhadap kode sumber aplikasi dari `/vagrant` ke `/var/www/html/`
 ```
-cp /vagrant/ctfweb /var/www/html
+cp /vagrant/ctfweb /var/www/html/
+```
+
+#### Membuat database untuk Aplikasi
+Dilakukan dengan menjalankan kueri pada salah satu node DB yang tergabung dalam cluster. Pada kasus ini, kueri disimpan di sql dump pada file `database.php`
+```
+mysql < /vagrant/ctfweb/database.php
 ```
 
 #### Konfigurasi Koneksi Aplikasi ke DB
