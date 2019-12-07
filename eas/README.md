@@ -176,3 +176,18 @@ Setelah semua PD dan TiKV terkonfig, jalankan kode berikut pada Node 1
                   --log-file=tidb.log &
 ```
 
+## Pemanfaatan Basis Data Terdistribusi dari Aplikasi
+
+Aplikasi yang digunakan adalah REST API Katalog Makanan dengan Python Flask.
+- app = `api/main.py`
+- db = `food_catalogue.sql`
+
+### Screenshoot CRUD Aplikasi
+Mendapatkan list katalog makanan
+![Read](img/read.jpg)
+Memasukkan data makanan baru
+![Create](img/create.jpg)
+Mengubah data makanan di basis data
+![Update](img/update.jpg)
+Menghapus data makanan
+![Delete](img/delete.jpg)
