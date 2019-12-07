@@ -183,11 +183,15 @@ Aplikasi yang digunakan adalah REST API Katalog Makanan dengan Python Flask.
 - db = `food_catalogue.sql`
 
 ### Screenshoot CRUD Aplikasi
+
 Mendapatkan list katalog makanan
-![Read](img/read.jpg)
+![Read](img/read.JPG)
+
 Memasukkan data makanan baru
-![Create](img/create.jpg)
+![Create](img/create.JPG)
+
 Mengubah data makanan di basis data
-![Update](img/update.jpg)
+![Update](img/update.JPG)
+
 Menghapus data makanan
-![Delete](img/delete.jpg)
+![Delete](img/delete.JPG)
