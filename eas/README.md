@@ -113,4 +113,66 @@ sudo yum -y install nano
 
 ## Konfigurasi TiDB pada Node
 
+Pada bagian ini, dilakukan konfigurasi terhadap masing-masing node sesuai dengan role node tersebut pada klaster.
+
+Perintah-perintah dibawah dieksekusi dengan aktif direktori di tidb
+```
+cd tidb-v3.0-linux-amd64
+```
+
+- Node 1 (PD Server 1)
+```
+./bin/pd-server --name=pd1 \
+                --data-dir=pd \
+                --client-urls="http://192.168.16.64:2379" \
+                --peer-urls="http://192.168.16.64:2380" \
+                --initial-cluster="pd1=http://192.168.16.64:2380,pd2=http://192.168.16.65:2380,pd3=http://192.168.16.66:2380" \
+                --log-file=pd.log &
+```
+- Node 2 (PD Server 2)
+```
+./bin/pd-server --name=pd2 \
+                --data-dir=pd \
+                --client-urls="http://192.168.16.65:2379" \
+                --peer-urls="http://192.168.16.65:2380" \
+                --initial-cluster="pd1=http://192.168.16.64:2380,pd2=http://192.168.16.65:2380,pd3=http://192.168.16.66:2380" \
+                --log-file=pd.log &
+```
+- Node 3 (PD Server 3)
+```
+./bin/pd-server --name=pd3 \
+                --data-dir=pd \
+                --client-urls="http://192.168.16.66:2379" \
+                --peer-urls="http://192.168.16.66:2380" \
+                --initial-cluster="pd1=http://192.168.16.64:2380,pd2=http://192.168.16.65:2380,pd3=http://192.168.16.66:2380" \
+                --log-file=pd.log &
+```
+- Node 4 (TiKV Server 1)
+```
+./bin/tikv-server --pd="192.168.16.64:2379,192.168.16.65:2379,192.168.16.66:2379" \
+                  --addr="192.168.16.67:20160" \
+                  --data-dir=tikv \
+                  --log-file=tikv.log &
+```
+- Node 5 (TiKV Server 2)
+```
+./bin/tikv-server --pd="192.168.16.64:2379,192.168.16.65:2379,192.168.16.66:2379" \
+                  --addr="192.168.16.68:20160" \
+                  --data-dir=tikv \
+                  --log-file=tikv.log &
+```
+- Node 6 (TiKV Server 3)
+```
+./bin/tikv-server --pd="192.168.16.64:2379,192.168.16.65:2379,192.168.16.66:2379" \
+                  --addr="192.168.16.69:20160" \
+                  --data-dir=tikv \
+                  --log-file=tikv.log &
+```
+
+Setelah semua PD dan TiKV terkonfig, jalankan kode berikut pada Node 1
+```
+./bin/tidb-server --store=tikv \
+                  --path="192.168.16.64:2379" \
+                  --log-file=tidb.log &
+```
 
