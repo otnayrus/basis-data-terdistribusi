@@ -163,6 +163,7 @@ cd tidb-v3.0-linux-amd64
 ```
 - Node 6 (TiKV Server 3)
 ```
+cd tidb-v3.0-linux-amd64
 ./bin/tikv-server --pd="192.168.16.64:2379,192.168.16.65:2379,192.168.16.66:2379" \
                   --addr="192.168.16.69:20160" \
                   --data-dir=tikv \
@@ -195,3 +196,21 @@ Mengubah data makanan di basis data
 
 Menghapus data makanan
 ![Delete](img/delete.JPG)
+
+## Uji Performa
+
+### Simulasi Fail-over
+
+Cek kondisi klaster dan rolenya melalui endpoint server pada `192.168.16.64:2379/pd/api/v1/members`.
+
+![Leader](img/leader.JPG)
+
+Uji fail-over dilakukan dengan mematikan node `leader` pada klaster. Pada kasus ini, node `leader` terletak pada `pd1`.
+```
+vagrant halt node1
+```
+Karena `node1` dimatikan, maka pengecekan klaster dapat dilakukan dari `pd` server lain. Pada kasus ini, pengecekan dilakukan pada `192.168.16.65:2379/pd/api/v1/members`.
+
+![Leader2](img/leader2.JPG)
+
+Pada gambar, `pd` server leader berubah menjadi node 2. Dengan ini, uji fail-over telah berhasil dilakukan.
