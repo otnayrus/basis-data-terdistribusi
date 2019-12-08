@@ -115,13 +115,11 @@ sudo yum -y install nano
 
 Pada bagian ini, dilakukan konfigurasi terhadap masing-masing node sesuai dengan role node tersebut pada klaster.
 
-Perintah-perintah dibawah dieksekusi dengan aktif direktori di tidb
-```
-cd tidb-v3.0-linux-amd64
-```
+Karena proses ini merupakan proses untuk menjalankan TiDB cluster, sebaiknya disimpan pada masing-masing node sebagai file bash dan di run setiap kali node di start.
 
 - Node 1 (PD Server 1)
 ```
+cd tidb-v3.0-linux-amd64
 ./bin/pd-server --name=pd1 \
                 --data-dir=pd \
                 --client-urls="http://192.168.16.64:2379" \
@@ -131,6 +129,7 @@ cd tidb-v3.0-linux-amd64
 ```
 - Node 2 (PD Server 2)
 ```
+cd tidb-v3.0-linux-amd64
 ./bin/pd-server --name=pd2 \
                 --data-dir=pd \
                 --client-urls="http://192.168.16.65:2379" \
@@ -140,6 +139,7 @@ cd tidb-v3.0-linux-amd64
 ```
 - Node 3 (PD Server 3)
 ```
+cd tidb-v3.0-linux-amd64
 ./bin/pd-server --name=pd3 \
                 --data-dir=pd \
                 --client-urls="http://192.168.16.66:2379" \
@@ -149,6 +149,7 @@ cd tidb-v3.0-linux-amd64
 ```
 - Node 4 (TiKV Server 1)
 ```
+cd tidb-v3.0-linux-amd64
 ./bin/tikv-server --pd="192.168.16.64:2379,192.168.16.65:2379,192.168.16.66:2379" \
                   --addr="192.168.16.67:20160" \
                   --data-dir=tikv \
@@ -156,6 +157,7 @@ cd tidb-v3.0-linux-amd64
 ```
 - Node 5 (TiKV Server 2)
 ```
+cd tidb-v3.0-linux-amd64
 ./bin/tikv-server --pd="192.168.16.64:2379,192.168.16.65:2379,192.168.16.66:2379" \
                   --addr="192.168.16.68:20160" \
                   --data-dir=tikv \
@@ -172,6 +174,7 @@ cd tidb-v3.0-linux-amd64
 
 Setelah semua PD dan TiKV terkonfig, jalankan kode berikut pada Node 1
 ```
+cd tidb-v3.0-linux-amd64
 ./bin/tidb-server --store=tikv \
                   --path="192.168.16.64:2379" \
                   --log-file=tidb.log &
