@@ -6,7 +6,7 @@ dengan basis data yang menerapkan sistem 3 layer (data layer, service layer, man
 
 - Penjelasan
     - Server DB
-        1. Node 1 (PD Server)
+        1. Node 1 (PD Server, TiDB)
             - OS    : CentOS 7
             - RAM   : 512 MB
             - CPUs  : 1
@@ -172,7 +172,7 @@ cd tidb-v3.0-linux-amd64
                   --log-file=tikv.log &
 ```
 
-Setelah semua PD dan TiKV terkonfig, jalankan kode berikut pada Node 1
+Node 1 (TiDB)
 ```
 cd tidb-v3.0-linux-amd64
 ./bin/tidb-server --store=tikv \
