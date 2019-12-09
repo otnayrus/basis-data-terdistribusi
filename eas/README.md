@@ -404,3 +404,14 @@ Tambahkan data source berupa prometheus dengan URL sesuai dengan prometheus serv
 Memilih dashboard pada `https://github.com/pingcap/tidb-ansible/tree/master/scripts`.
 Pada percobaan ini, dashboard yang digunakan yaitu `pd.json`, `tidb.json`, dan `tikv_details.json`.
 
+Dashboard Monitor PD
+
+![pd-dashboard](img/pd-dashboard.JPG)
+
+Dashboard Monitor TiDB
+
+![tidb-dashboard](img/tidb-dashboard.JPG)
+
+Dashboard Monitor TiKV
+
+![tikv-dashboard](img/tikv-dashboard.JPG)
