@@ -217,3 +217,19 @@ Karena `node1` dimatikan, maka pengecekan klaster dapat dilakukan dari `pd` serv
 ![Leader2](img/leader2.JPG)
 
 Pada gambar, `pd` server leader berubah menjadi node 2. Dengan ini, uji fail-over telah berhasil dilakukan.
+
+## Uji Performa Aplikasi dengan JMeter
+
+Pengujian dilakukan dengan melakukan pengiriman HTTP request ke endpoint aplikasi, pada kasus ini adalah `127.0.0.1:5000/foods`. Endpoint tersebut akan menampilkan katalog makanan pada basis data.
+
+- 100 koneksi
+
+![jmeter100](img/jmeter100.JPG)
+
+- 500 koneksi
+
+![jmeter500](img/jmeter500.JPG)
+
+- 1000 koneksi
+
+![jmeter1000](img/jmeter1000.JPG)
