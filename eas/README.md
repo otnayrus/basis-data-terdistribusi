@@ -254,9 +254,11 @@ Kemudian ganti file `config` menyesuaikan dengan yang akan diuji. Pengujian dapa
 Hasil uji coba dengan Sysbench adalah sebagai berikut
 
 - 3 PD Server
+
 ![sysbench3](img/sysbench3.JPG)
 
 - 2 PD Server
+
 ![sysbench2](img/sysbench2.JPG)
 
 - 1 PD Server
