@@ -4,6 +4,8 @@ dengan basis data yang menerapkan sistem 3 layer (data layer, service layer, man
 
 ## Skema Arsitektur 
 
+![Skema](img/skema.jpg)
+
 - Penjelasan
     - Server DB
         1. Node 1 (PD Server, TiDB)
