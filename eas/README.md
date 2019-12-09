@@ -218,7 +218,7 @@ Karena `node1` dimatikan, maka pengecekan klaster dapat dilakukan dari `pd` serv
 
 Pada gambar, `pd` server leader berubah menjadi node 2. Dengan ini, uji fail-over telah berhasil dilakukan.
 
-## Uji Performa Aplikasi dengan JMeter
+### Uji Performa Aplikasi dengan JMeter
 
 Pengujian dilakukan dengan melakukan pengiriman HTTP request ke endpoint aplikasi, pada kasus ini adalah `127.0.0.1:5000/foods`. Endpoint tersebut akan menampilkan katalog makanan pada basis data.
 
@@ -233,3 +233,174 @@ Pengujian dilakukan dengan melakukan pengiriman HTTP request ke endpoint aplikas
 - 1000 koneksi
 
 ![jmeter1000](img/jmeter1000.JPG)
+
+### Uji Performa Basis Data dengan Sysbench
+
+Uji coba dilakukan dengan menggunakan sysbench pada host dengan WSL. Langkah instalasi adalah sebagai berikut
+```
+# Sysbench
+curl -s https://packagecloud.io/install/repositories/akopytov/sysbench/script.deb.sh | sudo bash    
+sudo apt -y install sysbench
+
+# Benchmark pada TiDB
+git clone https://github.com/pingcap/tidb-bench.git
+cd tidb-bench/sysbench
+```
+
+Kemudian ganti file `config` menyesuaikan dengan yang akan diuji. Pengujian dapat disiapkan dengan `./run.sh point_select prepare 100` dan dapat di run dengan `./run.sh point_select run 100`.
+
+Hasil uji coba dengan Sysbench adalah sebagai berikut
+
+- 3 PD Server
+![sysbench3](img/sysbench3.JPG)
+
+- 2 PD Server
+![sysbench2](img/sysbench2.JPG)
+
+- 1 PD Server
+Pada pengujian 1 PD Server, TiDB mengeluarkan warning dengan error 'context deadline exceeded'
+
+Dapat disimpulkan bahwa semakin sedikit jumlah PD server, proses eksekusi kueri menjadi lebih lama.
+
+## Monitoring Basis Data
+
+### Instalasi Node Exporter
+Melakukan instalasi node exporter dengan menjalankan command berikut pada setiap Node.
+```
+wget https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-amd64.tar.gz
+tar -xzf node_exporter-0.18.1.linux-amd64.tar.gz
+
+cd node_exporter-0.18.1.linux-amd64
+./node_exporter --web.listen-address=":9100" \
+    --log.level="info" &
+    
+```
+
+### Instalasi Prometheus dan Grafana
+Melakukan instalasi pada Node 1
+```
+wget https://github.com/prometheus/prometheus/releases/download/v2.2.1/prometheus-2.2.1.linux-amd64.tar.gz
+wget https://dl.grafana.com/oss/release/grafana-6.5.1.linux-amd64.tar.gz
+
+tar -xzf prometheus-2.2.1.linux-amd64.tar.gz
+tar -xzf grafana-6.5.1.linux-amd64.tar.gz
+```
+
+### Konfigurasi Prometheus
+
+`prometheus.yml`
+```
+global:
+  scrape_interval: 15s  # By default, scrape targets every 15 seconds.
+  evaluation_interval: 15s  # By default, scrape targets every 15 seconds.
+  # scrape_timeout is set to the global default value (10s).
+  external_labels:
+    cluster: 'test-cluster'
+    monitor: "prometheus"
+
+scrape_configs:
+  - job_name: 'overwritten-nodes'
+    honor_labels: true  # Do not overwrite job & instance labels.
+    static_configs:
+    - targets:
+      - '192.168.16.64:9100'
+      - '192.168.16.65:9100'
+      - '192.168.16.66:9100'
+      - '192.168.16.67:9100'
+      - '192.168.16.68:9100'
+      - '192.168.16.69:9100'
+
+  - job_name: 'tidb'
+    honor_labels: true  # Do not overwrite job & instance labels.
+    static_configs:
+    - targets:
+      - '192.168.16.64:10080'
+
+  - job_name: 'pd'
+    honor_labels: true  # Do not overwrite job & instance labels.
+    static_configs:
+    - targets:
+      - '192.168.16.64:2379'
+      - '192.168.16.65:2379'
+      - '192.168.16.66:2379'
+
+  - job_name: 'tikv'
+    honor_labels: true  # Do not overwrite job & instance labels.
+    static_configs:
+    - targets:
+      - '192.168.16.67:20180'
+      - '192.168.16.68:20180'
+      - '192.168.16.69:20180'
+```
+
+### Start Prometheus Service
+
+```
+./prometheus \
+    --config.file="./prometheus.yml" \
+    --web.listen-address=":9090" \
+    --web.external-url="http://192.168.16.64:9090/" \
+    --web.enable-admin-api \
+    --log.level="info" \
+    --storage.tsdb.path="./data.metrics" \
+    --storage.tsdb.retention="15d" &
+```
+
+### Start Grafana pada Node 
+
+`conf/grafana.ini`
+```
+[paths]
+data = ./data
+logs = ./data/log
+plugins = ./data/plugins
+[server]
+http_port = 3000
+domain = 192.168.16.64
+[database]
+[session]
+[analytics]
+check_for_updates = true
+[security]
+admin_user = admin
+admin_password = admin
+[snapshots]
+[users]
+[auth.anonymous]
+[auth.basic]
+[auth.ldap]
+[smtp]
+[emails]
+[log]
+mode = file
+[log.console]
+[log.file]
+level = info
+format = text
+[log.syslog]
+[event_publisher]
+[dashboards.json]
+enabled = false
+path = ./data/dashboards
+[metrics]
+[grafana_net]
+url = https://grafana.net
+```
+
+Start grafana service
+```
+./bin/grafana-server \
+    --config="./conf/grafana.ini" &
+```
+
+### Konfigurasi Grafana
+
+Login ke Grafana Web Interface dengan Default address: `http://192.168.16.64:3000`, default account & password = `admin`
+
+Tambahkan data source berupa prometheus dengan URL sesuai dengan prometheus service pada node 1.
+
+### Menambahkan Grafana Dashboard
+
+Memilih dashboard pada `https://github.com/pingcap/tidb-ansible/tree/master/scripts`.
+Pada percobaan ini, dashboard yang digunakan yaitu `pd.json`, `tidb.json`, dan `tikv_details.json`.
+
